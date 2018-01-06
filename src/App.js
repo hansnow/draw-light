@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 
-const WIDTH = 256
-const HEIGHT = 256
+import getImage from './utils/ch1'
+
+const WIDTH = 512
+const HEIGHT = 512
+
+const getHex = num => num.toString(16).padStart(2, '0')
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +14,28 @@ class App extends Component {
       time: 0
     }
   }
-  drawImage = imgArr => {}
+  drawImage = imgArr => {
+    // console.log(imgArr.length, imgArr)
+    const start = Date.now()
+    const ctx = this.canvas.getContext('2d')
+    let index = 0
+    for (let x = 0; x < WIDTH; x++) {
+      for (let y = 0; y < HEIGHT; y++) {
+        const r = imgArr[index]
+        const g = imgArr[index + 1]
+        const b = imgArr[index + 2]
+        ctx.fillStyle = `#${getHex(r)}${getHex(g)}${getHex(b)}`
+        ctx.fillRect(x, y, 1, 1)
+        index = index + 3
+      }
+    }
+    const end = Date.now()
+    this.setState({ time: end - start })
+  }
+  drawCh1 = () => {
+    const imgArr = getImage()
+    this.drawImage(imgArr)
+  }
   drawRainBow = () => {
     const ctx = this.canvas.getContext('2d')
     // const start = performance.now()
@@ -18,7 +43,6 @@ class App extends Component {
     // const rgb = 256 * 256 * 256 * 3
     for (let y = 0; y < HEIGHT; y++) {
       for (let x = 0; x < WIDTH; x++) {
-        const getHex = num => num.toString(16).padStart(2, '0')
         ctx.fillStyle = `#${getHex(x)}${getHex(y)}${getHex(255 - x)}`
         ctx.fillRect(x, y, 1, 1)
       }
@@ -34,7 +58,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.drawRainBow}>Draw RainBow</button>
+        <button onClick={this.drawCh1}>Draw CH1</button>
         <span style={{ marginLeft: 8 }}>It takes {this.state.time} ms</span>
         <br />
         <br />
