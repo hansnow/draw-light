@@ -129,12 +129,17 @@ class App extends Component {
               onChange={this.handleFieldsChange}
             />
           </Row>
-          <Field
-            field="maxDistance"
-            label="MAX_DISTANCE: "
-            value={this.state.maxDistance}
-            onChange={this.handleFieldsChange}
-          />
+          <Row>
+            <Field
+              field="maxDistance"
+              label="MAX_DISTANCE: "
+              value={this.state.maxDistance}
+              onChange={this.handleFieldsChange}
+            />
+          </Row>
+          <Row>
+            <Field field="epsilon" label="EPSILON: " value="1e-6" />
+          </Row>
         </Container>
         <br />
         <canvas ref={el => (this.canvas = el)} />
