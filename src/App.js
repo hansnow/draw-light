@@ -18,7 +18,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      time: 0,
+      calTime: 0,
+      drawTime: 0,
       width: 256,
       height: 256,
       n: 64,
@@ -42,10 +43,10 @@ class App extends Component {
     })
   }
   drawImage = imgArr => {
+    const start = performance.now()
     const { width, height } = this.state
     this.canvas.width = width
     this.canvas.height = height
-    const start = Date.now()
     const ctx = this.canvas.getContext('2d')
     let index = 0
     for (let x = 0; x < width; x++) {
@@ -58,10 +59,11 @@ class App extends Component {
         index = index + 3
       }
     }
-    const end = Date.now()
-    this.setState({ time: end - start })
+    const end = performance.now()
+    this.setState({ drawTime: (end - start).toFixed(2) })
   }
   drawCh1 = () => {
+    const start = performance.now()
     const { width, height, n, maxStep, maxDistance } = this.state
     const imgArr = getImage({
       WIDTH: width,
@@ -70,28 +72,32 @@ class App extends Component {
       MAX_STEP: maxStep,
       MAX_DISTANCE: maxDistance
     })
+    const end = performance.now()
+    this.setState({ calTime: (end - start).toFixed(2) })
     this.drawImage(imgArr)
   }
   drawRainBow = () => {
+    const start = performance.now()
     this.canvas.width = 256
     this.canvas.height = 256
     const ctx = this.canvas.getContext('2d')
-    const start = Date.now()
     for (let y = 0; y < 256; y++) {
       for (let x = 0; x < 256; x++) {
         ctx.fillStyle = `#${getHex(x)}${getHex(y)}${getHex(255 - x)}`
         ctx.fillRect(x, y, 1, 1)
       }
     }
-    const end = Date.now()
-    this.setState({ time: end - start })
+    const end = performance.now()
+    this.setState({ drawTime: (end - start).toFixed(2), calTime: 0 })
   }
   render() {
     return (
       <div>
         <button onClick={this.drawCh1}>Draw Light</button>
         <button onClick={this.drawRainBow}>Draw Rainbow</button>
-        <span style={{ marginLeft: 8 }}>It takes {this.state.time} ms</span>
+        <span style={{ marginLeft: 8 }}>
+          Calculate: {this.state.calTime} ms, Draw: {this.state.drawTime} ms
+        </span>
         <Container>
           <Row>
             <Field
