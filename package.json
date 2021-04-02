@@ -2,7 +2,7 @@
   "name": "draw-light",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://draw-light.hansnow.me",
+  "homepage": "https://hansnow.github.io/draw-light/",
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -14,7 +14,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && gh-pages-clean && gh-pages -d build"
+    "deploy": "npm run build && gh-pages-clean && gh-pages -d build"
   },
   "devDependencies": {
     "gh-pages": "^1.1.0"
